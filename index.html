@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask UMD</title>
+
+  <!-- ============================================================
+       UMD Critical CSS — minimal subset (DS components + tokens)
+  ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overscroll-behavior: none; }
+
+    umd-element-navigation-utility:not(:defined),
+    umd-element-utility-header:not(:defined),
+    umd-element-navigation-header:not(:defined),
+    umd-element-nav-item:not(:defined),
+    umd-element-call-to-action:not(:defined) { content-visibility: hidden; }
+    umd-element-navigation-utility,
+    umd-element-utility-header,
+    umd-element-navigation-header,
+    umd-element-nav-item,
+    umd-element-call-to-action { display: block; container-type: normal; }
+
+    umd-element-card:not(:defined) { content-visibility: hidden; }
+    umd-element-card { display: block; container-type: inline-size; }
+
+    :root { font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif; }
+    p, li, label, input, textarea, select, button {
+      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+    }
+
+    /* Horizontal layout containers */
+    [class*="umd-layout-space-horizontal-"] {
+      box-sizing: border-box; display: block;
+      margin-left: auto; margin-right: auto;
+      padding-left: 24px; padding-right: 24px;
+    }
+    @media (min-width: 768px) {
+      [class*="umd-layout-space-horizontal-"] { padding-left: 48px; padding-right: 48px; }
+    }
+    @media (min-width: 1200px) {
+      [class*="umd-layout-space-horizontal-"] { padding-left: 64px; padding-right: 64px; }
+    }
+    .umd-layout-space-horizontal-full     { max-width: 100%;   }
+    .umd-layout-space-horizontal-normal   { max-width: 1280px; }
+    .umd-layout-space-horizontal-small    { max-width: 992px;  }
+    .umd-layout-space-horizontal-smallest { max-width: 800px;  }
+
+    /* Typography tokens */
+    .umd-sans-larger {
+      font-size: 18px; line-height: 1.4em; text-wrap: pretty;
+    }
+    @media (min-width: 650px)  { .umd-sans-larger { font-size: calc(18px + 0.5vw); } }
+    @media (min-width: 1024px) { .umd-sans-larger { font-size: 22px; line-height: 1.25em; } }
+
+    .umd-sans-extralarge-uppercase {
+      font-size: 18px; line-height: 1.25em;
+      font-weight: 800; text-transform: uppercase;
+      text-wrap: pretty;
+    }
+    @media (min-width: 650px)  { .umd-sans-extralarge-uppercase { font-size: calc(18px + 1.16vw); } }
+    @media (min-width: 1024px) { .umd-sans-extralarge-uppercase { font-size: 32px; line-height: 1.125em; } }
+
+    .umd-sans-medium { font-size: 16px; line-height: 1.375em; }
+    @media (min-width: 650px)  { .umd-sans-medium { font-size: calc(16px + 0.16vw); } }
+    @media (min-width: 1024px) { .umd-sans-medium { font-size: 18px; line-height: 1.55em; } }
+
+    .umd-sans-smaller { font-size: 14px; line-height: 1.28em; }
+    .umd-sans-min     { font-size: 12px; line-height: 1.16em; }
+
+    /* Eyebrow w/ trailing line on light bg */
+    .umd-text-line-trailing-light {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      position: relative; overflow: hidden; background-color: transparent;
+    }
+    .umd-text-line-trailing-light::before {
+      content: ""; position: absolute; top: 9px; right: 0;
+      width: 100vw; height: 1px; background: #000; z-index: 1;
+    }
+    .umd-text-line-trailing-light > span {
+      position: relative; background-color: #fafafa; padding-right: 8px; z-index: 2;
+    }
+  </style>
+
+  <link rel="stylesheet" href="styles/app.css" />
+
+  <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.2/dist/cdn.js"></script>
+</head>
+<body>
+
+  <!-- ===== Global utility header ===== -->
+  <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
+
+  <!-- ===== Site header — black strip with reverse logo + "SEARCH UMD" ===== -->
+  <header class="site-header">
+    <div class="site-header__inner umd-layout-space-horizontal-full">
+      <a class="site-header__logo" href="https://umd.edu" aria-label="University of Maryland">
+        <img src="images/logos/footer-logo.svg" alt="" />
+      </a>
+      <p class="site-header__title umd-sans-extralarge-uppercase">Search UMD</p>
+    </div>
+  </header>
+
+  <!-- ===== Chat ===== -->
+  <main class="chat umd-layout-space-horizontal-smallest">
+
+    <!-- Pinned/featured results: rendered as DS list-display cards -->
+    <section class="chat__featured" aria-label="Featured results">
+      <p class="umd-text-line-trailing-light featured-label"><span>Featured Results</span></p>
+      <div class="featured-results-list" id="featured-list">
+
+        <umd-element-card data-display="list">
+          <p slot="eyebrow">UMD Admissions</p>
+          <h3 slot="headline"><a href="https://admissions.umd.edu/apply/freshman-application-requirements">Freshman Application Requirements</a></h3>
+          <div slot="text"><p>UMD is test-optional through the Spring/Fall 2025 cycles. Review the academic preparation, materials, and deadlines required for first-year applicants.</p></div>
+          <p slot="date" class="result-url">admissions.umd.edu/apply/freshman-application-requirements</p>
+        </umd-element-card>
+
+        <umd-element-card data-display="list">
+          <p slot="eyebrow">The Graduate School</p>
+          <h3 slot="headline"><a href="https://gradschool.umd.edu/admissions">Admissions Decisions &amp; Notifications</a></h3>
+          <div slot="text"><p>For inquiries about admissions decisions, contact the Graduate School office or your program's graduate coordinator for official guidance on timeline and process.</p></div>
+          <p slot="date" class="result-url">gradschool.umd.edu/admissions</p>
+        </umd-element-card>
+
+      </div>
+    </section>
+
+    <!-- Transcript: scrollable, contains user/assistant bubbles -->
+    <section class="chat__transcript" id="transcript" aria-live="polite">
+
+      <article class="msg msg--assistant">
+        <img class="msg__avatar" src="assets/chat-icon.png" alt="" />
+        <div class="msg__bubble umd-sans-larger">Hi there! I'm here to answer your questions. What would you like to know?</div>
+      </article>
+
+      <article class="msg msg--user">
+        <div class="msg__bubble umd-sans-medium">Is UMD test optional?</div>
+        <img class="msg__avatar" src="assets/person-icon.svg" alt="" />
+      </article>
+
+      <article class="msg msg--assistant">
+        <img class="msg__avatar" src="assets/chat-icon.png" alt="" />
+        <div class="msg__bubble umd-sans-larger">UMD is currently test-optional through the Spring and Fall 2025 application cycles. Students can choose whether or not to submit SAT/ACT scores with their application. As part of the online application, you'll be able to indicate your test-optional status.</div>
+      </article>
+
+    </section>
+
+  </main>
+
+  <!-- Composer: full-width gray strip fixed to the bottom of the viewport -->
+  <form class="chat__composer" autocomplete="off">
+    <div class="chat__composer-inner">
+      <label class="visually-hidden" for="composer-input">Ask a question</label>
+      <input id="composer-input" name="q" type="text" placeholder="Type something..." class="umd-sans-medium" />
+      <button type="submit" aria-label="Send" class="composer__submit">
+        <img src="assets/chevron-submit.svg" alt="" />
+      </button>
+    </div>
+  </form>
+
+  <script type="module" src="scripts/app.js"></script>
+</body>
+</html>

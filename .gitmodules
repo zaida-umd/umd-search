@@ -1,0 +1,4 @@
+[submodule "design-system"]
+	path = design-system
+	url = https://github.com/UMD-Digital/design-system.git
+	branch = main
