@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search UMD</title>
+  <title>Ask UMD</title>
 
   <!-- ============================================================
        UMD Critical CSS — minimal subset (DS components + tokens)
@@ -22,6 +22,9 @@
     umd-element-navigation-header,
     umd-element-nav-item,
     umd-element-call-to-action { display: block; container-type: normal; }
+
+    umd-element-card:not(:defined) { content-visibility: hidden; }
+    umd-element-card { display: block; container-type: inline-size; }
 
     :root { font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif; }
     p, li, label, input, textarea, select, button {
@@ -80,39 +83,13 @@
     .umd-text-line-trailing-light > span {
       position: relative; background-color: #fafafa; padding-right: 8px; z-index: 2;
     }
-
-    /* Pill/tag list (DS umd-text-cluster-pill / legacy umd-pill-list) */
-    .umd-text-cluster-pill,
-    .umd-pill-list {
-      margin-top: -8px;
-      margin-bottom: 32px;
-    }
-    .umd-text-cluster-pill > *,
-    .umd-pill-list > * {
-      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
-      font-size: 12px;
-      line-height: 1.16em;
-      display: inline-block;
-      padding: 8px 12px;
-      margin-bottom: 0;
-      margin-top: 8px;
-      margin-right: 4px;
-      background-color: #fafafa;
-      transition: background-color 0.3s;
-      text-decoration: none;
-      color: #1a1a1a;
-    }
-    .umd-text-cluster-pill a:hover,
-    .umd-text-cluster-pill a:focus,
-    .umd-pill-list a:hover,
-    .umd-pill-list a:focus { background-color: #ffd200; }
   </style>
 
-  <link rel="stylesheet" href="styles/app.css" />
+  <link rel="stylesheet" href="styles/app.css?v=7" />
 
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.2/dist/cdn.js"></script>
 </head>
-<body class="page--landing">
+<body>
 
   <!-- ===== Global utility header ===== -->
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
@@ -127,31 +104,75 @@
     </div>
   </header>
 
-  <!-- ===== Landing search ===== -->
-  <main class="landing">
-    <div class="landing__inner umd-layout-space-horizontal-smallest">
+  <!-- ===== Chat ===== -->
+  <main class="chat umd-layout-space-horizontal-small">
 
-      <form class="landing__composer" action="results.html" method="get" autocomplete="off">
-        <div class="landing__composer-inner">
-          <label class="visually-hidden" for="composer-input">Ask a question</label>
-          <input id="composer-input" name="q" type="text" placeholder="Type something..." class="umd-sans-medium" />
-          <button type="submit" aria-label="Search" class="composer__submit">
-            <img src="assets/chevron-submit.svg" alt="" />
-          </button>
-        </div>
-      </form>
+    <!-- Pinned/featured results: rendered as DS list-display cards -->
+    <section class="chat__featured" aria-label="Featured results">
+      <p class="umd-text-line-trailing-light featured-label"><span>Featured Results</span></p>
+      <div class="featured-results-list" id="featured-list">
 
-      <section class="landing__common" aria-label="Common searches">
-        <p class="umd-text-line-trailing-light common-label"><span>Common Searches</span></p>
-        <nav class="umd-text-cluster-pill" aria-label="Common search tags">
-          <a href="results.html?q=Visit">Visit</a>
-          <a href="results.html?q=Admissions">Admissions</a>
-          <a href="results.html?q=Graduate+School">Graduate School</a>
-        </nav>
-      </section>
+        <umd-element-card data-display="list">
+          <p slot="eyebrow">UMD Admissions</p>
+          <h3 slot="headline"><a href="https://admissions.umd.edu/apply/freshman-application-requirements">Freshman Application Requirements</a></h3>
+          <div slot="text"><p>UMD is test-optional through the Spring/Fall 2025 cycles. Review the academic preparation, materials, and deadlines required for first-year applicants.</p></div>
+          <p slot="date" class="result-url">admissions.umd.edu/apply/freshman-application-requirements</p>
+        </umd-element-card>
 
-    </div>
+        <umd-element-card data-display="list">
+          <p slot="eyebrow">The Graduate School</p>
+          <h3 slot="headline"><a href="https://gradschool.umd.edu/admissions">Admissions Decisions &amp; Notifications</a></h3>
+          <div slot="text"><p>For inquiries about admissions decisions, contact the Graduate School office or your program's graduate coordinator for official guidance on timeline and process.</p></div>
+          <p slot="date" class="result-url">gradschool.umd.edu/admissions</p>
+        </umd-element-card>
+
+      </div>
+
+    </section>
+
+    <!-- Transcript: scrollable, contains user/assistant bubbles -->
+    <section class="chat__transcript" id="transcript" aria-live="polite">
+
+      <article class="msg msg--user">
+        <div class="msg__bubble umd-sans-medium">Is UMD test optional?</div>
+        <img class="msg__avatar" src="assets/person-icon.svg" alt="" />
+      </article>
+
+    </section>
+
+    <!-- More results below the chat exchange -->
+    <section class="more-results" aria-label="Additional results">
+      <button type="button" id="featured-load-more" class="umd-action-outline-block featured-load-more" aria-expanded="false" hidden>See more</button>
+      <div class="featured-results-more featured-results-list" id="featured-list-more" hidden>
+        <umd-element-card data-display="list">
+          <p slot="eyebrow">UMD Admissions</p>
+          <h3 slot="headline"><a href="https://admissions.umd.edu/apply/freshman-application-faqs">Freshman Application FAQs</a></h3>
+          <div slot="text"><p>Answers to the most common questions about applying as a first-year student — application materials, deadlines, transcripts, recommendations, and what to expect after submitting.</p></div>
+          <p slot="date" class="result-url">admissions.umd.edu/apply/freshman-application-faqs</p>
+        </umd-element-card>
+
+        <umd-element-card data-display="list">
+          <p slot="eyebrow">UMD Admissions</p>
+          <h3 slot="headline"><a href="https://admissions.umd.edu/apply/admission-review-process-factors">Admission Review Process &amp; Factors</a></h3>
+          <div slot="text"><p>How the Admissions Committee evaluates applications: the 26 factors considered in our holistic review, including academic preparation, extracurricular involvement, and personal qualities.</p></div>
+          <p slot="date" class="result-url">admissions.umd.edu/apply/admission-review-process-factors</p>
+        </umd-element-card>
+      </div>
+    </section>
+
   </main>
 
+  <!-- Composer: full-width gray strip fixed to the bottom of the viewport -->
+  <form class="chat__composer" autocomplete="off">
+    <div class="chat__composer-inner">
+      <label class="visually-hidden" for="composer-input">Ask a question</label>
+      <input id="composer-input" name="q" type="text" placeholder="Type something..." class="umd-sans-medium" />
+      <button type="submit" aria-label="Send" class="composer__submit">
+        <img src="assets/chevron-submit.svg" alt="" />
+      </button>
+    </div>
+  </form>
+
+  <script type="module" src="scripts/app.js?v=7"></script>
 </body>
 </html>

@@ -34,6 +34,8 @@ body {
   margin: 0;
   color: #fff;
   text-align: right;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 /* Chat panel — centered, white surface; scrolls with the page (no inner scroll). */
@@ -79,10 +81,80 @@ body {
 .featured-results-list umd-element-card[data-display="list"] {
   display: block;
   padding: 24px 0;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: card-fade-in 0.5s ease-out forwards;
 }
+.featured-results-list umd-element-card[data-display="list"]:nth-of-type(1) { animation-delay: 0.15s; }
+.featured-results-list umd-element-card[data-display="list"]:nth-of-type(2) { animation-delay: 0.55s; }
+.featured-results-list umd-element-card[data-display="list"]:nth-of-type(3) { animation-delay: 0.95s; }
+@keyframes card-fade-in {
+  to { opacity: 1; transform: none; }
+}
+
+/* Typewriter caret */
+.msg__bubble .typing-caret {
+  display: inline-block;
+  width: 0.5ch;
+  background: var(--text);
+  margin-left: 1px;
+  animation: caret-blink 0.9s steps(1) infinite;
+  vertical-align: text-bottom;
+  height: 1em;
+}
+@keyframes caret-blink { 50% { background: transparent; } }
 .featured-results-list umd-element-card[data-display="list"] + umd-element-card[data-display="list"] {
   border-top: 1px solid var(--gray-light);
 }
+
+/* Outline block CTA (page-built override of DS outline call-to-action) */
+.umd-action-outline-block {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 24px;
+  font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.28em;
+  text-align: center;
+  text-decoration: none;
+  background-color: #ffffff;
+  border: 1px solid #242424;
+  color: #000000;
+  cursor: pointer;
+  transition: background 0.5s ease-in-out, border 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+.umd-action-outline-block:hover,
+.umd-action-outline-block:focus {
+  background-color: #242424;
+  color: #ffffff;
+}
+.umd-action-outline-block[hidden] { display: none; }
+
+.more-results {
+  padding-bottom: 140px;
+}
+.featured-load-more {
+  margin-top: 24px;
+  margin-bottom: 48px;
+  animation: card-fade-in 0.4s ease-out;
+}
+.featured-results-more umd-element-card[data-display="list"]:first-of-type {
+  border-top: none;
+}
+.featured-results-more[hidden] { display: none; }
+.featured-results-more umd-element-card[data-display="list"] {
+  display: block;
+  padding: 24px 0;
+  border-top: 1px solid var(--gray-light);
+  font-weight: 300;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: card-fade-in 0.5s ease-out forwards;
+}
+.featured-results-more umd-element-card[data-display="list"]:nth-of-type(1) { animation-delay: 0.05s; }
+.featured-results-more umd-element-card[data-display="list"]:nth-of-type(2) { animation-delay: 0.35s; }
 
 /* ===== Transcript ===== */
 .chat__transcript {
@@ -111,6 +183,14 @@ body {
   font-weight: 300;
   color: var(--text);
 }
+.msg--assistant .msg__bubble a {
+  color: var(--umd-red);
+  text-decoration: underline;
+}
+.msg--assistant .msg__bubble a:hover,
+.msg--assistant .msg__bubble a:focus {
+  color: var(--umd-red-hover);
+}
 
 /* User: light-gray pill, smaller font, icon to the right */
 .msg--user { justify-content: flex-end; }
@@ -127,17 +207,27 @@ body {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   background: var(--gray-lighter);
-  padding: 20px 24px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   z-index: 10;
-  display: flex;
-  justify-content: center;
 }
 .chat__composer-inner {
   width: 100%;
-  max-width: 800px;
+  max-width: 992px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
   display: flex;
   gap: 12px;
   align-items: center;
+  box-sizing: border-box;
+}
+@media (min-width: 768px) {
+  .chat__composer-inner { padding-left: 48px; padding-right: 48px; }
+}
+@media (min-width: 1200px) {
+  .chat__composer-inner { padding-left: 64px; padding-right: 64px; }
 }
 .chat__composer input {
   flex: 1;
@@ -168,6 +258,52 @@ body {
   width: 40px; height: 40px;
   display: block;
   transition: transform 0.15s ease-in-out;
+}
+
+/* ===== Landing page (gray bg, centered search) ===== */
+body.page--landing {
+  background: var(--gray-lighter);
+  padding-bottom: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+body.page--landing .landing {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+}
+.landing__inner { width: 100%; }
+
+.landing__composer-inner {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.landing__composer input {
+  flex: 1;
+  padding: 14px 20px;
+  border: 1px solid var(--umd-red);
+  border-radius: 999px;
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+}
+.landing__composer input:focus {
+  box-shadow: 0 0 0 2px rgba(226, 24, 51, 0.18);
+}
+
+.common-label {
+  margin-bottom: 16px;
+  color: var(--umd-red);
+}
+.common-label.umd-text-line-trailing-light::before { background: var(--umd-red); }
+.common-label.umd-text-line-trailing-light > span {
+  background-color: var(--gray-lighter);
+  color: var(--umd-red);
 }
 
 .visually-hidden {
