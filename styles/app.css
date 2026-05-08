@@ -312,6 +312,91 @@ body.page--landing .landing {
   clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 
+/* ===== Vertex header overrides ===== */
+.page--vertex {
+  padding-bottom: 0;
+}
+.page--vertex .site-header {
+  background: var(--gray-lighter);
+}
+.page--vertex .site-header__title {
+  color: var(--text);
+}
+.page--vertex .site-header__inner {
+  padding-bottom: 0;
+}
+.site-header__search {
+  padding-top: 56px;
+  padding-bottom: 20px;
+}
+.page--vertex .vertex-answer {
+  border-bottom: none;
+}
+.page--vertex .landing__composer input {
+  border-color: transparent;
+}
+.page--vertex .landing__composer input:focus {
+  border-color: var(--umd-red);
+}
+
+/* ===== Vertex layout (non-chat results) ===== */
+.vertex-query {
+  padding: 24px 0 4px;
+  font-weight: 700;
+}
+
+.vertex-answer {
+  padding: 20px 0 28px;
+  border-bottom: 1px solid var(--black);
+  margin-bottom: 24px;
+}
+
+.summary-text { font-weight: 300; }
+.summary-text strong { font-weight: 700; }
+.summary-text p { margin-bottom: 1em; }
+.summary-text p:last-child { margin-bottom: 0; }
+
+.citation-link {
+  color: var(--umd-red);
+  text-decoration: underline;
+}
+.citation-link:hover,
+.citation-link:focus { color: var(--umd-red-hover); }
+
+.show-details-button {
+  margin-top: 56px;
+  margin-bottom: 56px;
+}
+
+.details-content { margin-top: 24px; font-weight: 300; }
+.details-content strong { font-weight: 700; }
+.details-content.hidden { display: none; }
+
+.details-content h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+.details-content h3:first-child { margin-top: 0; }
+
+.details-content ul {
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+.details-content li {
+  margin-bottom: 8px;
+  line-height: 1.55;
+}
+.details-content p { margin-bottom: 1em; }
+.details-content p:last-child { margin-bottom: 0; }
+.details-content a {
+  color: var(--umd-red);
+  text-decoration: underline;
+}
+.details-content a:hover,
+.details-content a:focus { color: var(--umd-red-hover); }
+
 .result-url {
   font-size: 13px;
   color: var(--gray-medium);

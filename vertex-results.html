@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask UMD</title>
+
+  <!-- ============================================================
+       UMD Critical CSS — minimal subset (DS components + tokens)
+  ============================================================ -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overscroll-behavior: none; }
+
+    umd-element-navigation-utility:not(:defined),
+    umd-element-utility-header:not(:defined),
+    umd-element-navigation-header:not(:defined),
+    umd-element-nav-item:not(:defined),
+    umd-element-call-to-action:not(:defined) { content-visibility: hidden; }
+    umd-element-navigation-utility,
+    umd-element-utility-header,
+    umd-element-navigation-header,
+    umd-element-nav-item,
+    umd-element-call-to-action { display: block; container-type: normal; }
+
+    umd-element-card:not(:defined) { content-visibility: hidden; }
+    umd-element-card { display: block; container-type: inline-size; }
+
+    :root { font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif; }
+    p, li, label, input, textarea, select, button {
+      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+    }
+
+    /* Horizontal layout containers */
+    [class*="umd-layout-space-horizontal-"] {
+      box-sizing: border-box; display: block;
+      margin-left: auto; margin-right: auto;
+      padding-left: 24px; padding-right: 24px;
+    }
+    @media (min-width: 768px) {
+      [class*="umd-layout-space-horizontal-"] { padding-left: 48px; padding-right: 48px; }
+    }
+    @media (min-width: 1200px) {
+      [class*="umd-layout-space-horizontal-"] { padding-left: 64px; padding-right: 64px; }
+    }
+    .umd-layout-space-horizontal-full     { max-width: 100%;   }
+    .umd-layout-space-horizontal-normal   { max-width: 1280px; }
+    .umd-layout-space-horizontal-small    { max-width: 992px;  }
+    .umd-layout-space-horizontal-smallest { max-width: 800px;  }
+
+    /* Typography tokens */
+    .umd-sans-larger {
+      font-size: 18px; line-height: 1.4em; text-wrap: pretty;
+    }
+    @media (min-width: 650px)  { .umd-sans-larger { font-size: calc(18px + 0.5vw); } }
+    @media (min-width: 1024px) { .umd-sans-larger { font-size: 22px; line-height: 1.25em; } }
+
+    .umd-sans-extralarge-uppercase {
+      font-size: 18px; line-height: 1.25em;
+      font-weight: 800; text-transform: uppercase;
+      text-wrap: pretty;
+    }
+    @media (min-width: 650px)  { .umd-sans-extralarge-uppercase { font-size: calc(18px + 1.16vw); } }
+    @media (min-width: 1024px) { .umd-sans-extralarge-uppercase { font-size: 32px; line-height: 1.125em; } }
+
+    .umd-sans-medium { font-size: 16px; line-height: 1.375em; }
+    @media (min-width: 650px)  { .umd-sans-medium { font-size: calc(16px + 0.16vw); } }
+    @media (min-width: 1024px) { .umd-sans-medium { font-size: 18px; line-height: 1.55em; } }
+
+    .umd-sans-smaller { font-size: 14px; line-height: 1.28em; }
+    .umd-sans-min     { font-size: 12px; line-height: 1.16em; }
+
+    /* Eyebrow w/ trailing line on light bg */
+    .umd-text-line-trailing-light {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      position: relative; overflow: hidden; background-color: transparent;
+    }
+    .umd-text-line-trailing-light::before {
+      content: ""; position: absolute; top: 9px; right: 0;
+      width: 100vw; height: 1px; background: #000; z-index: 1;
+    }
+    .umd-text-line-trailing-light > span {
+      position: relative; background-color: #fafafa; padding-right: 8px; z-index: 2;
+    }
+  </style>
+
+  <link rel="stylesheet" href="styles/app.css?v=7" />
+
+  <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.2/dist/cdn.js"></script>
+</head>
+<body class="page--vertex">
+
+  <!-- ===== Global utility header ===== -->
+  <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
+
+  <!-- ===== Site header — gray strip with dark logo, search input ===== -->
+  <header class="site-header">
+    <div class="site-header__inner umd-layout-space-horizontal-full">
+      <a class="site-header__logo" href="https://umd.edu" aria-label="University of Maryland">
+        <img src="images/logos/primary-logo-dark.svg" alt="" />
+      </a>
+      <p class="site-header__title umd-sans-larger">Search UMD</p>
+    </div>
+    <div class="site-header__search umd-layout-space-horizontal-small">
+      <form class="landing__composer" action="vertex-results.html" method="get" autocomplete="off">
+        <div class="landing__composer-inner">
+          <label class="visually-hidden" for="composer-input">Ask a question</label>
+          <input id="composer-input" name="q" type="text" placeholder="Type something..." class="umd-sans-medium" />
+          <button type="submit" aria-label="Search" class="composer__submit">
+            <img src="assets/chevron-submit.svg" alt="" />
+          </button>
+        </div>
+      </form>
+    </div>
+  </header>
+
+  <!-- ===== Results ===== -->
+  <main class="chat umd-layout-space-horizontal-small">
+
+    <!-- Pinned/featured results -->
+    <section class="chat__featured" aria-label="Featured results">
+      <p class="umd-text-line-trailing-light featured-label"><span>Featured Results</span></p>
+      <div class="featured-results-list" id="featured-list">
+
+        <umd-element-card data-display="list">
+          <img slot="image" src="https://umd-admissions.transforms.svdcdn.com/production/hero/og.jpg?w=1200&h=630&q=82&auto=format&fit=crop&dm=1685464457&s=374d08886ed8a8dfe507669ca155aa6c" alt="" />
+          <p slot="eyebrow">UMD Admissions</p>
+          <h3 slot="headline"><a href="https://admissions.umd.edu/apply/freshman-application-requirements">Freshman Application Requirements</a></h3>
+          <div slot="text"><p>UMD is test-optional through the Spring/Fall 2025 cycles. Review the academic preparation, materials, and deadlines required for first-year applicants.</p></div>
+          <p slot="date" class="result-url">admissions.umd.edu/apply/freshman-application-requirements</p>
+        </umd-element-card>
+
+        <umd-element-card data-display="list">
+          <img slot="image" src="https://gradschool.umd.edu/sites/default/files/2020-02/Students_Mall_09192019_0726.jpg" alt="" />
+          <p slot="eyebrow">The Graduate School</p>
+          <h3 slot="headline"><a href="https://gradschool.umd.edu/admissions">Admissions Decisions &amp; Notifications</a></h3>
+          <div slot="text"><p>For inquiries about admissions decisions, contact the Graduate School office or your program's graduate coordinator for official guidance on timeline and process.</p></div>
+          <p slot="date" class="result-url">gradschool.umd.edu/admissions</p>
+        </umd-element-card>
+
+      </div>
+    </section>
+
+    <!-- AI answer -->
+    <section class="vertex-answer" aria-label="Answer">
+      <div id="summary-text" class="summary-text umd-sans-medium"><p>Yes, the University <a href="https://admissions.umd.edu/apply/freshman-application-faqs" target="_blank" rel="noopener noreferrer" title="Freshman Application FAQs" class="citation-link">of Maryland (UMD) is currently test-optional.</a> This policy has been extended through the <strong>Spring and Fall 2027 application cycles</strong>. This means that students applying for admission between now and Fall 2027 are not required to submit standardized test scores (SAT/ACT). Students have the option to decide whether or not to include their scores with their application.</p>
+<p>UMD initially implemented its test-optional policy due to the limitations of testing in areas affected by the COVID-19 pandemic. The university is currently assessing the impact of this policy to inform its standardized test score requirement for application cycles beyond Fall 2027.</p>
+<p>Here's a breakdown of what being test-optional means for different applicants:</p>
+<button type="button" class="show-details-button umd-action-outline-block" aria-expanded="false">Show more details</button><div class="details-content hidden"><h3>For Freshman Applicants</h3>
+<ul>
+<li><strong>Test Score Submission:</strong> You are not required to submit SAT/ACT scores. You can choose whether or not to include them.</li>
+<li><strong>Indicating Test-Optional Status:</strong> You will be able to indicate your test-optional status on your application.</li>
+<li><strong>Changing Status:</strong> Once you submit your application, your response to the test-optional question is final and cannot be changed.</li>
+<li><strong>Evaluation Without Scores:</strong> If you choose not to have your scores considered, the Admission Committee will not consider any submitted SAT/ACT scores in the application review. UMD uses a holistic, full-file review process, considering factors such as grades, academic trends, performance in advanced courses (Honors, IB, AP, A/AS level), letters of recommendation, essays, extracurricular activities, and other achievements.</li>
+<li><strong>Impact on Admissions:</strong> A decision not to submit SAT or ACT scores <a href="https://today.umd.edu/briefs/umd-extends-test-optional-admissions-through-fall-2025" target="_blank" rel="noopener noreferrer" title="UMD Extends Test-optional Admissions Through Fall 2025" class="citation-link">will not harm your admission chances.</a></li>
+<li><strong>Merit Scholarships and Special Programs:</strong> The review processes for merit scholarships, living-learning programs, and other special programs are also test-optional.</li>
+<li><strong>Limited Enrollment Programs (LEPs):</strong> Review processes for Limited Enrollment Programs are also test-optional.</li>
+<li><strong>Superscoring:</strong> If you choose to submit scores, UMD superscores both the SAT and ACT, using the highest subscores in their review. It is to your benefit to submit all your test scores if you choose to submit them.</li>
+<li><strong>Writing Portion and Subject Tests:</strong> UMD does not require subject tests or scores from the writing sections of the SAT or ACT. These scores are not among the 24 factors reviewed for admission, even if submitted.</li>
+<li><strong>English Language Proficiency:</strong> Standardized tests for English language proficiency (e.g., Duolingo English Test, IELTS, TOEFL) are still required for non-native English speakers.</li>
+</ul>
+<h3>For Transfer Applicants</h3>
+<ul>
+<li><strong>Test Score Submission:</strong> UMD is currently <a href="https://admissions.umd.edu/apply/freshman-applicants" target="_blank" rel="noopener noreferrer" title="Freshman Applicants" class="citation-link">test-optional for transfer students as well.</a> Traditionally, transfer students with fewer than 30 semester or 45 quarter hours at the time of application would need to submit SAT and/or ACT scores, but this is no longer a requirement due to the test-optional policy.</li>
+<li><strong>Indicating Test-Optional Status:</strong> You will be able to indicate your test-optional status on your application.</li>
+<li><strong>Evaluation Without Scores:</strong> If you choose not to have your test scores considered, the Admission Committee uses a holistic, full-file review.</li>
+<li><strong>Superscoring:</strong> UMD superscores both the SAT and ACT, using the highest subscores from your submitted tests.</li>
+</ul>
+<h3>Important Considerations</h3>
+<ul>
+<li><strong>Academic Year:</strong> This test-optional policy is in effect through the <strong>Spring and Fall 2027 application cycles</strong>.</li>
+<li><strong>Future Policy:</strong> UMD is currently assessing the impact of the test-optional policy to determine its future beyond Fall 2027.</li>
+</ul>
+<p>For the most current and complete information, please refer to the <strong>Office of Undergraduate Admissions</strong> website.</p>
+</div></div>
+    </section>
+
+    <!--
+    <section class="more-results" aria-label="Additional results">
+      <button type="button" id="featured-load-more" class="umd-action-outline-block featured-load-more" aria-expanded="false" hidden>See more</button>
+      <div class="featured-results-more featured-results-list" id="featured-list-more" hidden>
+        <umd-element-card data-display="list">
+          <p slot="eyebrow">UMD Admissions</p>
+          <h3 slot="headline"><a href="https://admissions.umd.edu/apply/freshman-application-faqs">Freshman Application FAQs</a></h3>
+          <div slot="text"><p>Answers to the most common questions about applying as a first-year student — application materials, deadlines, transcripts, recommendations, and what to expect after submitting.</p></div>
+          <p slot="date" class="result-url">admissions.umd.edu/apply/freshman-application-faqs</p>
+        </umd-element-card>
+
+        <umd-element-card data-display="list">
+          <p slot="eyebrow">UMD Admissions</p>
+          <h3 slot="headline"><a href="https://admissions.umd.edu/apply/admission-review-process-factors">Admission Review Process &amp; Factors</a></h3>
+          <div slot="text"><p>How the Admissions Committee evaluates applications: the 26 factors considered in our holistic review, including academic preparation, extracurricular involvement, and personal qualities.</p></div>
+          <p slot="date" class="result-url">admissions.umd.edu/apply/admission-review-process-factors</p>
+        </umd-element-card>
+      </div>
+    </section>
+    -->
+
+  </main>
+
+
+  <script>
+    // Pre-fill the search input with the query from the URL
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q');
+    if (q && q.trim()) {
+      const input = document.getElementById('composer-input');
+      if (input) input.value = q.trim();
+    }
+
+    // Expand/collapse details
+    document.querySelector('.show-details-button')?.addEventListener('click', function () {
+      const details = document.querySelector('.details-content');
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      this.textContent = expanded ? 'Show more details' : 'Show less';
+      details.classList.toggle('hidden', expanded);
+    });
+
+    // Load more featured results (section currently commented out in HTML)
+    // const loadMoreBtn = document.getElementById('featured-load-more');
+    // const moreList = document.getElementById('featured-list-more');
+    // if (loadMoreBtn && moreList) {
+    //   loadMoreBtn.hidden = false;
+    //   loadMoreBtn.addEventListener('click', () => {
+    //     const expanded = !moreList.hidden;
+    //     moreList.hidden = expanded;
+    //     loadMoreBtn.textContent = expanded ? 'See more' : 'See less';
+    //     loadMoreBtn.setAttribute('aria-expanded', String(!expanded));
+    //   });
+    // }
+  </script>
+</body>
+</html>
