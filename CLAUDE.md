@@ -37,21 +37,6 @@ CSS utility classes from the DS (inlined in each HTML `<head>` as critical CSS):
 - Decorative: `umd-text-line-trailing-light` — eyebrow label with a trailing horizontal rule
 - Pill/tag list: `umd-text-cluster-pill`
 
-## Color tokens (CSS custom properties in `styles/app.css`)
-
-```css
---umd-red: #e21833
---umd-red-hover: #c41129
---gray-lightest: #fafafa
---gray-lighter: #f1f1f1
---gray-light: #e6e6e6
---gray-medium: #757575
---black: #000
---bg: #fff
---surface: #fff
---text: #1a1a1a
-```
-
 ## Chat layout (results.html)
 
 - **`.chat__featured`** — pinned result cards above the transcript, separated by a black border
