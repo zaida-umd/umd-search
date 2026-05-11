@@ -360,12 +360,6 @@ body.page--landing .landing {
 .page--vertex .vertex-answer {
   border-bottom: none;
 }
-.page--vertex .landing__composer input {
-  border-color: transparent;
-}
-.page--vertex .landing__composer input:focus {
-  border-color: var(--umd-red);
-}
 
 /* ===== Vertex layout (non-chat results) ===== */
 .vertex-query {
