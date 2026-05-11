@@ -18,6 +18,11 @@ body {
   padding-bottom: 120px;
 }
 
+/* Prevent the fixed composer from obscuring a focused element (WCAG 2.4.11) */
+html {
+  scroll-padding-bottom: 120px;
+}
+
 /* ===== Site header (black strip) ===== */
 .site-header { background: var(--black); }
 .site-header__inner {
