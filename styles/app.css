@@ -239,7 +239,7 @@ body {
   color: var(--text);
 }
 .chat__composer input:focus {
-  box-shadow: 0 0 0 2px rgba(226, 24, 51, 0.18);
+  box-shadow: 0 0 0 2px var(--umd-red);
 }
 .composer__submit {
   width: 44px; height: 44px;
@@ -254,6 +254,11 @@ body {
 }
 .composer__submit:hover img,
 .composer__submit:focus img { transform: translateX(2px); }
+.composer__submit:focus-visible {
+  outline: 2px solid var(--umd-red);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 .composer__submit img {
   width: 40px; height: 40px;
   display: block;
@@ -293,7 +298,7 @@ body.page--landing .landing {
   color: var(--text);
 }
 .landing__composer input:focus {
-  box-shadow: 0 0 0 2px rgba(226, 24, 51, 0.18);
+  box-shadow: 0 0 0 2px var(--umd-red);
 }
 
 .common-label {
