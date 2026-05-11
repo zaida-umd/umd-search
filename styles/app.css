@@ -310,10 +310,10 @@ body.page--landing .landing {
   margin-bottom: 16px;
   color: var(--umd-red);
 }
-.common-label.umd-text-line-trailing-light::before { background: var(--umd-red); }
+.common-label.umd-text-line-trailing-light::before { background: var(--black); }
 .common-label.umd-text-line-trailing-light > span {
   background-color: var(--gray-lighter);
-  color: var(--umd-red);
+  color: var(--black);
 }
 
 .visually-hidden {
