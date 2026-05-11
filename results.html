@@ -132,8 +132,11 @@
 
     </section>
 
+    <!-- Visually hidden: announces completed responses to screen readers -->
+    <div id="transcript-announcer" aria-live="polite" aria-atomic="true" class="visually-hidden"></div>
+
     <!-- Transcript: scrollable, contains user/assistant bubbles -->
-    <section class="chat__transcript" id="transcript" aria-live="polite">
+    <section class="chat__transcript" id="transcript">
 
       <article class="msg msg--user">
         <div class="msg__bubble umd-sans-medium">Is UMD test optional?</div>

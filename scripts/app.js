@@ -2,8 +2,16 @@
 // Featured/pinned results are static HTML in index.html.
 
 const transcript = document.getElementById('transcript');
+const announcer = document.getElementById('transcript-announcer');
 const form = document.querySelector('.chat__composer');
 const input = document.querySelector('#composer-input');
+
+function announce(text) {
+  if (!announcer) return;
+  announcer.textContent = '';
+  // Brief timeout lets the DOM reset so the same text re-triggers the live region
+  setTimeout(() => { announcer.textContent = text; }, 50);
+}
 
 // Canned answer for the default test-optional question. Segments are typed in
 // order; "link" segments produce an inline anchor.
@@ -55,6 +63,10 @@ function appendMessage(role, text) {
 
 // Type a list of segments into `bubble`, char-by-char, with a blinking caret.
 // Returns a Promise that resolves when typing finishes.
+function segmentsToPlainText(segments) {
+  return segments.map(s => s.type === 'text' ? s.value : s.text).join('');
+}
+
 function typeAnswer(bubble, segments, charDelay = 14) {
   const caret = document.createElement('span');
   caret.className = 'typing-caret';
@@ -69,6 +81,7 @@ function typeAnswer(bubble, segments, charDelay = 14) {
     function step() {
       if (segIdx >= segments.length) {
         caret.remove();
+        announce(segmentsToPlainText(segments));
         resolve();
         return;
       }
@@ -152,9 +165,8 @@ form.addEventListener('submit', (e) => {
   appendMessage('user', q);
   setTimeout(() => {
     const bubble = createAssistantBubble();
-    typeAnswer(bubble, [
-      { type: 'text', value: `(stub) You asked: "${q}". Backend not wired up yet.` }
-    ]);
+    const stubSegments = [{ type: 'text', value: `(stub) You asked: "${q}". Backend not wired up yet.` }];
+    typeAnswer(bubble, stubSegments);
   }, 250);
   input.value = '';
 });
