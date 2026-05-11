@@ -427,6 +427,6 @@ body.page--landing .landing {
 
 .result-url {
   font-size: 13px;
-  color: var(--gray-medium);
+  color: #6b6b6b;
   word-break: break-all;
 }
