@@ -312,7 +312,8 @@ body.page--landing .landing {
 }
 .common-label.umd-text-line-trailing-light::before { background: var(--umd-red); }
 .common-label.umd-text-line-trailing-light > span {
-  background-color: var(--gray-lighter);
+  /* White surface gives #e21833 the 4.73:1 contrast it needs (vs 4.22:1 on gray-lighter) */
+  background-color: var(--bg);
   color: var(--umd-red);
 }
 
