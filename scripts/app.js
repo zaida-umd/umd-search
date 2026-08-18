@@ -53,53 +53,47 @@ function appendMessage(role, text) {
   transcript.appendChild(article);
 }
 
-// Type a list of segments into `bubble`, char-by-char, with a blinking caret.
+// Type a list of segments into `bubble`, word-by-word, with a blinking caret.
 // Returns a Promise that resolves when typing finishes.
-function typeAnswer(bubble, segments, charDelay = 14) {
+function typeAnswer(bubble, segments, wordDelay = 60) {
   const caret = document.createElement('span');
   caret.className = 'typing-caret';
   caret.setAttribute('aria-hidden', 'true');
   bubble.appendChild(caret);
 
-  return new Promise((resolve) => {
-    let segIdx = 0;
-    let charIdx = 0;
-    let currentTarget = bubble;
+  // Flatten segments into word-level tokens. Text segments split on word
+  // boundaries (each token includes trailing whitespace). Link segments are
+  // inserted whole as a single token.
+  const tokens = [];
+  for (const seg of segments) {
+    if (seg.type === 'text') {
+      for (const word of (seg.value.match(/\S+\s*/g) || [])) {
+        tokens.push({ type: 'text', value: word });
+      }
+    } else if (seg.type === 'link') {
+      tokens.push(seg);
+    }
+  }
 
+  return new Promise((resolve) => {
+    let idx = 0;
     function step() {
-      if (segIdx >= segments.length) {
+      if (idx >= tokens.length) {
         caret.remove();
         resolve();
         return;
       }
-      const seg = segments[segIdx];
-      if (seg.type === 'text') {
-        if (charIdx < seg.value.length) {
-          caret.insertAdjacentText('beforebegin', seg.value[charIdx]);
-          charIdx++;
-        } else {
-          segIdx++;
-          charIdx = 0;
-          currentTarget = bubble;
-        }
-      } else if (seg.type === 'link') {
-        if (charIdx === 0) {
-          const a = document.createElement('a');
-          a.href = seg.href;
-          bubble.insertBefore(a, caret);
-          currentTarget = a;
-        }
-        if (charIdx < seg.text.length) {
-          currentTarget.appendChild(document.createTextNode(seg.text[charIdx]));
-          charIdx++;
-        } else {
-          segIdx++;
-          charIdx = 0;
-          currentTarget = bubble;
-        }
+      const tok = tokens[idx++];
+      if (tok.type === 'text') {
+        caret.insertAdjacentText('beforebegin', tok.value);
+      } else if (tok.type === 'link') {
+        const a = document.createElement('a');
+        a.href = tok.href;
+        a.textContent = tok.text;
+        bubble.insertBefore(a, caret);
       }
       window.scrollTo({ top: document.body.scrollHeight });
-      setTimeout(step, charDelay);
+      setTimeout(step, wordDelay);
     }
     step();
   });

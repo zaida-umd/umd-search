@@ -237,6 +237,7 @@ body {
   outline: none;
   background: var(--surface);
   color: var(--text);
+  font-weight: 300;
 }
 .chat__composer input:focus {
   box-shadow: 0 0 0 2px rgba(226, 24, 51, 0.18);
@@ -291,6 +292,7 @@ body.page--landing .landing {
   outline: none;
   background: var(--surface);
   color: var(--text);
+  font-weight: 300;
 }
 .landing__composer input:focus {
   box-shadow: 0 0 0 2px rgba(226, 24, 51, 0.18);
@@ -332,12 +334,7 @@ body.page--landing .landing {
 .page--vertex .vertex-answer {
   border-bottom: none;
 }
-.page--vertex .landing__composer input {
-  border-color: transparent;
-}
-.page--vertex .landing__composer input:focus {
-  border-color: var(--umd-red);
-}
+
 
 /* ===== Vertex layout (non-chat results) ===== */
 .vertex-query {

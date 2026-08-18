@@ -85,11 +85,11 @@
     }
   </style>
 
-  <link rel="stylesheet" href="styles/app.css?v=7" />
+  <link rel="stylesheet" href="styles/app.css?v=8" />
 
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.2/dist/cdn.js"></script>
 </head>
-<body class="page--vertex">
+<body class="page--vertex page--vertex-results">
 
   <!-- ===== Global utility header ===== -->
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
@@ -106,7 +106,7 @@
       <form class="landing__composer" action="vertex-results.html" method="get" autocomplete="off">
         <div class="landing__composer-inner">
           <label class="visually-hidden" for="composer-input">Ask a question</label>
-          <input id="composer-input" name="q" type="text" placeholder="Type something..." class="umd-sans-medium" />
+          <input id="composer-input" name="q" type="text" placeholder="Type something..." class="umd-sans-medium" value="Is umd test optional?" />
           <button type="submit" aria-label="Search" class="composer__submit">
             <img src="assets/chevron-submit.svg" alt="" />
           </button>
